@@ -1,4 +1,4 @@
-package regexer
+package reger
 
 import (
 	"regexp"
@@ -7,12 +7,12 @@ import (
 	"bufio"
 )
 
-type Regexer struct {
+type Reger struct {
 	r io.RuneReader
 	buf []byte
 }
 
-func (x *Regexer) ReadRune() (r rune, size int, err error) {
+func (x *Reger) ReadRune() (r rune, size int, err error) {
 	r, size, err = x.r.ReadRune()
 	if err != nil {
 		return 0, 0, nil
@@ -21,15 +21,15 @@ func (x *Regexer) ReadRune() (r rune, size int, err error) {
 	return r, size, nil
 }
 
-func NewRegexer(r io.RuneReader) *Regexer {
-	return &Regexer{r: r}
+func NewReger(r io.RuneReader) *Reger {
+	return &Reger{r: r}
 }
 
-func NewReaderRegexer(r io.Reader) *Regexer {
-	return &Regexer{r: bufio.NewReader(r)}
+func NewReaderReger(r io.Reader) *Reger {
+	return &Reger{r: bufio.NewReader(r)}
 }
 
-func (r *Regexer) FindReader(re *regexp.Regexp) []byte {
+func (r *Reger) FindReader(re *regexp.Regexp) []byte {
 	r.buf = r.buf[:0]
 	idxs := re.FindReaderIndex(r)
 	if idxs == nil {
@@ -38,7 +38,7 @@ func (r *Regexer) FindReader(re *regexp.Regexp) []byte {
 	return r.buf[idxs[0]:idxs[1]]
 }
 
-func (r *Regexer) FindReaderString(re *regexp.Regexp) string {
+func (r *Reger) FindReaderString(re *regexp.Regexp) string {
 	b := r.FindReader(re)
 	if b == nil {
 		return ""
@@ -46,7 +46,7 @@ func (r *Regexer) FindReaderString(re *regexp.Regexp) string {
 	return string(b)
 }
 
-func (r *Regexer) FindReaderSubmatch(re *regexp.Regexp) [][]byte {
+func (r *Reger) FindReaderSubmatch(re *regexp.Regexp) [][]byte {
 	r.buf = r.buf[:0]
 	idxs := re.FindReaderSubmatchIndex(r)
 	if idxs == nil {
@@ -60,7 +60,7 @@ func (r *Regexer) FindReaderSubmatch(re *regexp.Regexp) [][]byte {
 	return out
 }
 
-func (r *Regexer) FindReaderStringSubmatch(re *regexp.Regexp) []string {
+func (r *Reger) FindReaderStringSubmatch(re *regexp.Regexp) []string {
 	bs := r.FindReaderSubmatch(re)
 	out := make([]string, 0, len(bs))
 	for _, b := range bs {
@@ -73,7 +73,7 @@ func (r *Regexer) FindReaderStringSubmatch(re *regexp.Regexp) []string {
 	return out
 }
 
-func (r *Regexer) FindReaderAllIndex(re *regexp.Regexp) [][]int {
+func (r *Reger) FindReaderAllIndex(re *regexp.Regexp) [][]int {
 	r.buf = r.buf[:0]
 	var out [][]int
 	for {
@@ -89,7 +89,7 @@ func (r *Regexer) FindReaderAllIndex(re *regexp.Regexp) [][]int {
 	return out
 }
 
-func (r *Regexer) FindReaderAll(re *regexp.Regexp) [][]byte {
+func (r *Reger) FindReaderAll(re *regexp.Regexp) [][]byte {
 	idxs := r.FindReaderAllIndex(re)
 	out := make([][]byte, 0, len(idxs))
 	for _, idxpair := range idxs {
@@ -102,7 +102,7 @@ func (r *Regexer) FindReaderAll(re *regexp.Regexp) [][]byte {
 	return out
 }
 
-func (r *Regexer) FindReaderAllString(re *regexp.Regexp) []string {
+func (r *Reger) FindReaderAllString(re *regexp.Regexp) []string {
 	bs := r.FindReaderAll(re)
 	out := make([]string, 0, len(bs))
 	for _, b := range bs {
@@ -115,7 +115,7 @@ func (r *Regexer) FindReaderAllString(re *regexp.Regexp) []string {
 	return out
 }
 
-func (r *Regexer) FindReaderAllSubmatchIndex(re *regexp.Regexp) [][]int {
+func (r *Reger) FindReaderAllSubmatchIndex(re *regexp.Regexp) [][]int {
 	r.buf = r.buf[:0]
 	var out [][]int
 	for {
@@ -132,7 +132,7 @@ func (r *Regexer) FindReaderAllSubmatchIndex(re *regexp.Regexp) [][]int {
 	return out
 }
 
-func (r *Regexer) FindReaderAllSubmatch(re *regexp.Regexp) [][][]byte {
+func (r *Reger) FindReaderAllSubmatch(re *regexp.Regexp) [][][]byte {
 	idxs := r.FindReaderAllSubmatchIndex(re)
 	out := make([][][]byte, 0, len(idxs))
 	for _, idxset := range idxs {
@@ -151,7 +151,7 @@ func (r *Regexer) FindReaderAllSubmatch(re *regexp.Regexp) [][][]byte {
 	return out
 }
 
-func (r *Regexer) FindReaderAllStringSubmatch(re *regexp.Regexp) [][]string {
+func (r *Reger) FindReaderAllStringSubmatch(re *regexp.Regexp) [][]string {
 	bsets := r.FindReaderAllSubmatch(re)
 	if bsets == nil {
 		return nil

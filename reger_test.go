@@ -1,4 +1,4 @@
-package regexer
+package reger
 
 import (
 	"testing"
@@ -13,7 +13,7 @@ var testRe = regexp.MustCompile(`apple (sp|c)ider`)
 
 func TestFindReaderAllString(t *testing.T) {
 	expected := []string{"apple cider", "apple spider"}
-	found := NewReaderRegexer(strings.NewReader(input)).FindReaderAllString(testRe)
+	found := NewReaderReger(strings.NewReader(input)).FindReaderAllString(testRe)
 	if !reflect.DeepEqual(found, expected) {
 		t.Errorf("found %v != expected %v", found, expected)
 	}
@@ -24,7 +24,7 @@ func TestFindReaderAllStringSubmatch(t *testing.T) {
 		[]string{"apple cider", "c"},
 		[]string{"apple spider", "sp"},
 	}
-	found := NewReaderRegexer(strings.NewReader(input)).FindReaderAllStringSubmatch(testRe)
+	found := NewReaderReger(strings.NewReader(input)).FindReaderAllStringSubmatch(testRe)
 	if !reflect.DeepEqual(found, expected) {
 		t.Errorf("found %v != expected %v", found, expected)
 	}
