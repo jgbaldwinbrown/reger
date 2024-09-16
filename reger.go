@@ -31,6 +31,16 @@ func (x *Reger) ReadRune() (r rune, size int, err error) {
 	return r, size, nil
 }
 
+// Return the bytes read since the last call to a regex method or r.ResetBuffer.
+func (r *Reger) Bytes() []byte {
+	return r.buf
+}
+
+// Empties the internal buffer.
+func (r *Reger) ResetBuffer() {
+	r.buf = r.buf[:0]
+}
+
 // Creates a new Reger from an io.RuneReader. No buffering is done, so no extra
 // bytes are read when finding a regex. The reader can still be used by other
 // functions without strange outcomes.
