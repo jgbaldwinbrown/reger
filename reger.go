@@ -140,17 +140,9 @@ func (r *Reger) FindReaderAll(re *regexp.Regexp) [][]byte {
 // Returns a []string containing all matches in the reader or nil if there are
 // no matches.
 func (r *Reger) FindReaderAllString(re *regexp.Regexp) []string {
-	bs := r.FindReaderAll(re)
-	if bs == nil {
-		return nil
-	}
-	out := make([]string, 0, len(bs))
-	for _, b := range bs {
-		if b == nil {
-			out = append(out, "")
-		} else {
-			out = append(out, string(b))
-		}
+	var out []string
+	for ss := r.FindReaderStringSubmatch(re); ss != nil; ss = r.FindReaderStringSubmatch(re) {
+		out = append(out, ss[0])
 	}
 	return out
 }
@@ -203,17 +195,9 @@ func (r *Reger) FindReaderAllSubmatch(re *regexp.Regexp) [][][]byte {
 // Returns a [][]string containing submatches for all matches in the reader or
 // nil if there are no matches.
 func (r *Reger) FindReaderAllStringSubmatch(re *regexp.Regexp) [][]string {
-	bsets := r.FindReaderAllSubmatch(re)
-	if bsets == nil {
-		return nil
-	}
-	out := make([][]string, 0, len(bsets))
-	for _, bset := range bsets {
-		outset := make([]string, 0, len(bset))
-		for _, b := range bset {
-			outset = append(outset, string(b))
-		}
-		out = append(out, outset)
+	var out [][]string
+	for ss := r.FindReaderStringSubmatch(re); ss != nil; ss = r.FindReaderStringSubmatch(re) {
+		out = append(out, ss)
 	}
 	return out
 }
