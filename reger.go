@@ -88,7 +88,11 @@ func (r *Reger) FindReaderSubmatch(re *regexp.Regexp) [][]byte {
 	out := make([][]byte, 0, len(idxs)/2)
 	for i := 0; i < len(idxs); i += 2 {
 		idxpair := idxs[i : i+2]
-		out = append(out, r.buf[idxpair[0]:idxpair[1]])
+		if idxpair[0] < 0 || idxpair[1] < 0 {
+			out = append(out, nil)
+		} else {
+			out = append(out, r.buf[idxpair[0]:idxpair[1]])
+		}
 	}
 	return out
 }
@@ -169,7 +173,9 @@ func (r *Reger) FindReaderAllSubmatchIndex(re *regexp.Regexp) [][]int {
 			break
 		}
 		for i, _ := range idxs {
-			idxs[i] += prevlen
+			if idxs[i] >= 0 {
+				idxs[i] += prevlen
+			}
 		}
 		out = append(out, idxs)
 	}
@@ -195,7 +201,11 @@ func (r *Reger) FindReaderAllSubmatch(re *regexp.Regexp) [][][]byte {
 		bset := make([][]byte, 0, len(idxset)/2)
 		for i := 0; i < len(idxset); i += 2 {
 			idxpair := idxset[i : i+2]
-			bset = append(bset, r.buf[idxpair[0]:idxpair[1]])
+			if idxpair[0] < 0 || idxpair[1] < 0 {
+				bset = append(bset, nil)
+			} else {
+				bset = append(bset, r.buf[idxpair[0]:idxpair[1]])
+			}
 		}
 		out = append(out, bset)
 	}

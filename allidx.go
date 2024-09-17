@@ -40,7 +40,9 @@ func FindRuneReaderAllSubmatchIndex(re *regexp.Regexp, r io.RuneReader) [][]int 
 		}
 		curlen += idxs[1]
 		for i, _ := range idxs {
-			idxs[i] += prevlen
+			if idxs[i] >= 0 {
+				idxs[i] += prevlen
+			}
 		}
 		out = append(out, idxs)
 	}
