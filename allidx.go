@@ -3,6 +3,7 @@ package reger
 import (
 	"io"
 	"regexp"
+	"bufio"
 )
 
 // Returns a [][]int containing indices for all matches in the reader or nil if
@@ -44,4 +45,12 @@ func FindRuneReaderAllSubmatchIndex(re *regexp.Regexp, r io.RuneReader) [][]int 
 		out = append(out, idxs)
 	}
 	return out
+}
+
+func FindReaderAllIndex(re *regexp.Regexp, r io.Reader) [][]int {
+	return FindRuneReaderAllIndex(re, bufio.NewReader(r))
+}
+
+func FindReaderAllSubmatchIndex(re *regexp.Regexp, r io.Reader) [][]int {
+	return FindRuneReaderAllSubmatchIndex(re, bufio.NewReader(r))
 }
