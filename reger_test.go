@@ -1,10 +1,10 @@
 package reger
 
 import (
-	"testing"
-	"strings"
-	"regexp"
 	"reflect"
+	"regexp"
+	"strings"
+	"testing"
 )
 
 const input = "here is some apple cider, and there is an apple spider"

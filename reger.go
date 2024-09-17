@@ -7,16 +7,16 @@
 package reger
 
 import (
-	"regexp"
-	"io"
-	"unicode/utf8"
 	"bufio"
+	"io"
+	"regexp"
+	"unicode/utf8"
 )
 
 // The main type here. Holds an io.RuneReader and passes calls to
 // reger.Reger.ReadRune through to it, capturing all read runes in an internal buffer.
 type Reger struct {
-	r io.RuneReader
+	r   io.RuneReader
 	buf []byte
 }
 
@@ -85,9 +85,9 @@ func (r *Reger) FindReaderSubmatch(re *regexp.Regexp) [][]byte {
 	if idxs == nil {
 		return nil
 	}
-	out := make([][]byte, 0, len(idxs) / 2)
+	out := make([][]byte, 0, len(idxs)/2)
 	for i := 0; i < len(idxs); i += 2 {
-		idxpair := idxs[i:i + 2]
+		idxpair := idxs[i : i+2]
 		out = append(out, r.buf[idxpair[0]:idxpair[1]])
 	}
 	return out
@@ -192,9 +192,9 @@ func (r *Reger) FindReaderAllSubmatch(re *regexp.Regexp) [][][]byte {
 			continue
 		}
 
-		bset := make([][]byte, 0, len(idxset) / 2)
+		bset := make([][]byte, 0, len(idxset)/2)
 		for i := 0; i < len(idxset); i += 2 {
-			idxpair := idxset[i:i + 2]
+			idxpair := idxset[i : i+2]
 			bset = append(bset, r.buf[idxpair[0]:idxpair[1]])
 		}
 		out = append(out, bset)
